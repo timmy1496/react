@@ -25,6 +25,7 @@ let state = {
             {id: 5, message: 'YO'},
             {id: 6, message: 'YO'}
         ],
+        newMessageText: 'hi, new message'
     },
     sideBar: {
         friends: [
@@ -53,6 +54,25 @@ export let addPost = () => {
 
 export let updateNewPostText = (text) => {
     state.profilePage.newPostText = text;
+
+    rerenderEntireThree(state);
+}
+
+export let addMessage = (message) => {
+
+    let newMessage = {
+        id: 10,
+        message: message,
+    };
+
+    state.dialogsPage.messages.push(newMessage);
+
+    rerenderEntireThree(state);
+}
+
+export let updateMessage = (message) => {
+
+    state.dialogsPage.newMessageText = message;
 
     rerenderEntireThree(state);
 }

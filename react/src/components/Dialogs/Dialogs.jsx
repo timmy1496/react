@@ -1,9 +1,8 @@
-import { NavLink } from 'react-router-dom';
+import React from 'react';
 
+import DialogItem from './DialogItem/DialogItem';
 import s from './Dialogs.module.css';
-import DialogItem from "./DialogItem/DialogItem";
-import Message from "./Message/Message";
-import React from "react";
+import Message from './Message/Message';
 
 const Dialogs = function (props) {
 
@@ -14,7 +13,13 @@ const Dialogs = function (props) {
     let newMessage = React.createRef()
 
     let addMessage = () => {
-        alert(newMessage.current.value)
+        let message = newMessage.current.value;
+        props.addMessage(message);
+    }
+
+    let onMessageChange = () => {
+        let message = newMessage.current.value;
+        props.updateMessage(message);
     }
 
     return (
@@ -26,7 +31,7 @@ const Dialogs = function (props) {
                 { messages}
             </div>
             <div>
-                <textarea ref={ newMessage } name="" id="" cols="30" rows="10"></textarea>
+                <textarea onChange={ onMessageChange } ref={ newMessage } value={props.state.newMessageText} name="" id="" cols="30" rows="10"/>
                 <button onClick={ addMessage }>Add message</button>
             </div>
         </div>
