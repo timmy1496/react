@@ -1,11 +1,12 @@
-import {rerenderEntireThree} from "../render";
+import { rerenderEntireThree } from '../render';
 
 let state = {
     profilePage: {
         posts: [
             {id: 1, likeCount: 4, message: 'Hi, how are you?'},
             {id: 2, likeCount: 22, message: 'It\'s my first post'},
-        ]
+        ],
+        newPostText: 'it-kamasutra.com'
     },
     dialogsPage: {
         dialogs: [
@@ -34,15 +35,24 @@ let state = {
     }
 }
 
-export let addPost = (postMessage) => {
+window.state = state;
+
+export let addPost = () => {
 
     let newPost = {
         id: 5,
-        message: postMessage,
+        message: state.profilePage.newPostText,
         likeCount: 0,
     };
 
     state.profilePage.posts.push(newPost);
+    state.profilePage.newPostText = '';
+
+    rerenderEntireThree(state);
+}
+
+export let updateNewPostText = (text) => {
+    state.profilePage.newPostText = text;
 
     rerenderEntireThree(state);
 }
