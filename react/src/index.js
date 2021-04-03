@@ -1,28 +1,21 @@
-import state, {subscribe} from "./redux/state";
+import store from "./redux/state";
 import './index.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 
-import {
-    addMessage,
-    addPost,
-    updateMessage,
-    updateNewPostText,
-} from './redux/state';
-
 let rerenderEntireThree = (state) => {
     ReactDOM.render(
         <React.StrictMode>
-            <App state={state}
-                 addPost={ addPost }
-                 updateNewPostText={ updateNewPostText }
-                 addMessage={addMessage}
-                 updateMessage={updateMessage} />
+            <App state={ state}
+                 addPost={ store.addPost.bind(store) }
+                 updateNewPostText={ store.updateNewPostText.bind(store) }
+                 addMessage={ store.addMessage.bind(store)}
+                 updateMessage={ store.updateMessage.bind(store)} />
         </React.StrictMode>,
         document.getElementById('root')
     );
 }
-rerenderEntireThree(state);
+rerenderEntireThree(store.getState());
 
-subscribe(rerenderEntireThree);
+store.subscriber(rerenderEntireThree)
