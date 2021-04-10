@@ -11,22 +11,21 @@ import Music from './components/Music/Music';
 import Navbar from './components/Navbar/Navbar';
 import News from './components/News/News';
 import Profile from './components/Profile/Profile';
+import DialogsContainer from "./components/Dialogs/DialogsContainer";
 
 const App = (props) => {
+
     return (
         <BrowserRouter>
             <div className='app-wrapper'>
                 <Header/>
-                <Navbar state={props.state.sideBar}/>
+                <Navbar state={props.store.getState().sideBar}/>
                 <div className='app-wrapper-content'>
                     <Route exact path='/dialogs'
-                           render={() => <Dialogs
-                               state={props.state.dialogsPage}
-                               dispatch={ props.dispatch } />}/>
+                           render={() => <DialogsContainer
+                               store={ props.store} />}/>
                     <Route path='/profile'
-                           render={() => <Profile
-                               profilePage={props.state.profilePage}
-                               dispatch={props.dispatch} />} />
+                           render={() => <Profile store={ props.store }/>} />
                     <Route path='/news' render={() => <News/>} />
                     <Route path='/music' render={() => <Music/>} />
                 </div>

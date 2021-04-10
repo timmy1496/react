@@ -7,7 +7,7 @@ import App from './App';
 let rerenderEntireThree = (state) => {
     ReactDOM.render(
         <React.StrictMode>
-            <App state={ state }
+            <App store={ store }
                  dispatch={ store.dispatch.bind(store) }/>
         </React.StrictMode>,
         document.getElementById('root')
