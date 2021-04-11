@@ -12,6 +12,7 @@ import Navbar from './components/Navbar/Navbar';
 import News from './components/News/News';
 import Profile from './components/Profile/Profile';
 import DialogsContainer from "./components/Dialogs/DialogsContainer";
+import NavbarContainer from "./components/Navbar/NavbarContainer";
 
 const App = (props) => {
 
@@ -19,7 +20,7 @@ const App = (props) => {
         <BrowserRouter>
             <div className='app-wrapper'>
                 <Header/>
-                <Navbar />
+                <NavbarContainer />
                 <div className='app-wrapper-content'>
                     <Route exact path='/dialogs'
                            render={() => <DialogsContainer />}/>

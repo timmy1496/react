@@ -3,7 +3,7 @@ import './index.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import StoreContext, {Provider} from "./StoreContext";
+import {Provider} from "react-redux";
 
 let rerenderEntireThree = (state) => {
     ReactDOM.render(

@@ -2,7 +2,6 @@ import classes from './MyFriends.module.css'
 import MyFriend from "./MyFriend/MyFriend";
 
 const MyFriends = (props) => {
-
     let friendsData = props.state.friends.map(friend => <MyFriend friend={friend}/>);
 
     return (
