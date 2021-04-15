@@ -1,4 +1,6 @@
 import classes from './Users.module.css';
+import * as axios from 'axios';
+import userPhoto from '../../assets/images/user.jpg'
 
 const Users = (props) => {
 
@@ -50,7 +52,10 @@ const Users = (props) => {
     ];
 
     if (props.users.length === 0) {
-        props.setUsers(users);
+        axios.get('https://social-network.samuraijs.com/api/1.0/users')
+            .then(response => {
+                props.setUsers(response.data.items);
+        });
     }
 
     const follow = (userID) => {
@@ -68,22 +73,23 @@ const Users = (props) => {
                     <div key={u.id}>
                         <span>
                             <div>
-                                <img src={u.avatar} alt="" className={classes.avatar}/>
+                                <img src={u.photos.small !== null ? u.photos.small : userPhoto} alt=""
+                                     className={classes.avatar}/>
                             </div>
                             <div>
                                 {u.followed ?
-                                    <button onClick={ () => unfollow(u.id) }>Unfollow</button> :
-                                    <button onClick={ () => follow(u.id) }>Follow</button>}
+                                    <button onClick={() => unfollow(u.id)}>Unfollow</button> :
+                                    <button onClick={() => follow(u.id)}>Follow</button>}
                             </div>
                         </span>
                         <span>
                             <span>
-                                <div>{u.fullName}</div>
+                                <div>{u.name}</div>
                                 <div>{u.status}</div>
                             </span>
                             <span>
-                                <div>{u.location.city}</div>
-                                <div>{u.location.country}</div>
+                                <div>{"u.location.city"}</div>
+                                <div>{"u.location.country"}</div>
                             </span>
                         </span>
                     </div>
