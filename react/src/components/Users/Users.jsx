@@ -14,7 +14,16 @@ class Users extends React.Component {
     }
 
     getUsers = () => {
-        axios.get('https://social-network.samuraijs.com/api/1.0/users')
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`)
+            .then(response => {
+                this.props.setUsers(response.data.items);
+                this.props.setTotalUserCount(response.data.totalCount);
+            });
+    };
+
+    onPageChanged  = (pageNumber) => {
+        this.props.setCurrentPage(pageNumber);
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.pageSize}`)
             .then(response => {
                 this.props.setUsers(response.data.items);
             });
@@ -29,9 +38,22 @@ class Users extends React.Component {
     }
 
     render() {
+
+        let pagesCount = this.props.totalUserCount / this.props.pageSize;
+        let pages = [];
+
+        for (let i = 1; i <= Math.ceil(pagesCount); i++) {
+            pages.push(i)
+        }
+
         return (
             <div className={classes}>
-                <button onClick={this.getUsers}>Get users</button>
+                <div>
+                    {pages.map(p => {
+                        return <span className={this.props.currentPage === p ? classes.selectedPage : ''}
+                        onClick={(e) => { this.onPageChanged(p) }}>{p}</span>
+                    })}
+                </div>
                 {
                     this.props.users.map(u =>
                         <div key={u.id}>
