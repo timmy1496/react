@@ -28,7 +28,7 @@ const ProfileInfo = (props) => {
                 <p>
                     contacts:
                     {Object.keys(props.profile.contacts).map((key) => (
-                        <p>{key}: {props.profile.contacts[key] ? props.profile.contacts[key] : ''} </p>
+                        props.profile.contacts[key] === null ? '' : <p>{key}: {props.profile.contacts[key]}</p>
                     ))}
                 </p>
             </div>
