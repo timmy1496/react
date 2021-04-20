@@ -1,6 +1,14 @@
 import s from './ProfileInfo.module.css';
+import Preloader from "../../common/Preloader/Preloader";
 
-const ProfileInfo = () => {
+const ProfileInfo = (props) => {
+
+    if (Object.keys(props.profile).length === 0 && props.profile.constructor === Object) {
+        return  (
+            <Preloader/>
+        );
+    }
+
     return (
         <div>
             <div>
@@ -9,7 +17,20 @@ const ProfileInfo = () => {
                     alt=""/>
             </div>
             <div className={s.descriptionBlock}>
-                ava + decsription
+                <p>
+                    fullName: {props.profile.fullName}
+                </p>
+                <p>
+                    userid: {props.profile.userId}
+                </p>
+                <img src={props.profile.photos.large} alt=""/>
+               <p>description: {props.profile.aboutMe}</p>
+                <p>
+                    contacts:
+                    {Object.keys(props.profile.contacts).map((key) => (
+                        <p>{key}: {props.profile.contacts[key] ? props.profile.contacts[key] : ''} </p>
+                    ))}
+                </p>
             </div>
         </div>
     );
