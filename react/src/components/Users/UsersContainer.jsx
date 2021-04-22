@@ -24,8 +24,12 @@ class UsersApiComponent extends React.Component {
 
     getUsers = () => {
         this.props.SetToggle(true);
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`)
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`,
+            {
+                withCredentials: true
+            })
             .then(response => {
+                debugger
                 this.props.SetToggle(false);
                 this.props.usersSet(response.data.items);
                 this.props.setTotalUserCount(response.data.totalCount);
@@ -35,7 +39,10 @@ class UsersApiComponent extends React.Component {
     onPageChanged  = (pageNumber) => {
         this.props.SetToggle(true);
         this.props.setCurrentPage(pageNumber);
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.pageSize}`)
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.pageSize}`,
+            {
+                withCredentials: true
+            })
             .then(response => {
                 this.props.SetToggle(false);
                 this.props.usersSet(response.data.items);
@@ -43,11 +50,33 @@ class UsersApiComponent extends React.Component {
     };
 
     unfollow = (userId) => {
-        this.props.unfollow(userId);
+        axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/${userId}`,
+            {
+                withCredentials: true,
+                headers: {
+                    "API-KEY": "773e312e-d947-42e8-81f9-3705b58e0e8c"
+                }
+            })
+            .then(response => {
+                if (response.data.resultCode === 0) {
+                    this.props.unfollow(userId);
+                }
+            });
     }
 
     follow = (userId) => {
-        this.props.follow(userId);
+        axios.post(`https://social-network.samuraijs.com/api/1.0/follow/${userId}`, {},
+            {
+                withCredentials: true,
+                headers: {
+                    "API-KEY": "773e312e-d947-42e8-81f9-3705b58e0e8c"
+                },
+            })
+            .then(response => {
+               if (response.data.resultCode === 0) {
+                   this.props.follow(userId);
+               }
+            });
     }
 
     render() {
