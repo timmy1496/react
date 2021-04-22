@@ -11,6 +11,7 @@ import React from 'react';
 import * as axios from 'axios';
 import Users from './Users';
 import Preloader from "../common/Preloader/Preloader";
+import {usersApi} from "../../api/api";
 
 class UsersApiComponent extends React.Component {
 
@@ -24,40 +25,24 @@ class UsersApiComponent extends React.Component {
 
     getUsers = () => {
         this.props.SetToggle(true);
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`,
-            {
-                withCredentials: true
-            })
-            .then(response => {
-                debugger
+        usersApi.getUsers(this.props.currentPage, this.props.pageSize).then(response => {
                 this.props.SetToggle(false);
-                this.props.usersSet(response.data.items);
-                this.props.setTotalUserCount(response.data.totalCount);
+                this.props.usersSet(response.items);
+                this.props.setTotalUserCount(response.totalCount);
             });
     };
 
     onPageChanged  = (pageNumber) => {
         this.props.SetToggle(true);
         this.props.setCurrentPage(pageNumber);
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.pageSize}`,
-            {
-                withCredentials: true
-            })
-            .then(response => {
+        usersApi.getUsers(pageNumber, this.props.pageSize).then(response => {
                 this.props.SetToggle(false);
-                this.props.usersSet(response.data.items);
+                this.props.usersSet(response.items);
             });
     };
 
     unfollow = (userId) => {
-        axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/${userId}`,
-            {
-                withCredentials: true,
-                headers: {
-                    "API-KEY": "773e312e-d947-42e8-81f9-3705b58e0e8c"
-                }
-            })
-            .then(response => {
+            usersApi.unfollow(userId).then(response => {
                 if (response.data.resultCode === 0) {
                     this.props.unfollow(userId);
                 }
@@ -65,14 +50,7 @@ class UsersApiComponent extends React.Component {
     }
 
     follow = (userId) => {
-        axios.post(`https://social-network.samuraijs.com/api/1.0/follow/${userId}`, {},
-            {
-                withCredentials: true,
-                headers: {
-                    "API-KEY": "773e312e-d947-42e8-81f9-3705b58e0e8c"
-                },
-            })
-            .then(response => {
+        usersApi.follow(userId).then(response => {
                if (response.data.resultCode === 0) {
                    this.props.follow(userId);
                }
