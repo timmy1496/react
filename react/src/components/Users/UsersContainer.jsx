@@ -1,7 +1,7 @@
 import {connect} from 'react-redux';
 import {
     follow,
-    setCurrentPage,
+    setCurrentPage, setFollowingProgress,
     SetToggle,
     setTotalUserCount,
     unfollow,
@@ -26,49 +26,55 @@ class UsersApiComponent extends React.Component {
     getUsers = () => {
         this.props.SetToggle(true);
         usersApi.getUsers(this.props.currentPage, this.props.pageSize).then(response => {
-                this.props.SetToggle(false);
-                this.props.usersSet(response.items);
-                this.props.setTotalUserCount(response.totalCount);
-            });
+            this.props.SetToggle(false);
+            this.props.usersSet(response.items);
+            this.props.setTotalUserCount(response.totalCount);
+        });
     };
 
-    onPageChanged  = (pageNumber) => {
+    onPageChanged = (pageNumber) => {
         this.props.SetToggle(true);
         this.props.setCurrentPage(pageNumber);
         usersApi.getUsers(pageNumber, this.props.pageSize).then(response => {
-                this.props.SetToggle(false);
-                this.props.usersSet(response.items);
-            });
+            this.props.setFollowingProgress(true);
+            this.props.SetToggle(false);
+            this.props.usersSet(response.items);
+        });
     };
 
     unfollow = (userId) => {
-            usersApi.unfollow(userId).then(response => {
-                if (response.data.resultCode === 0) {
-                    this.props.unfollow(userId);
-                }
-            });
+        this.props.setFollowingProgress(true, userId);
+        usersApi.unfollow(userId).then(response => {
+            if (response.data.resultCode === 0) {
+                this.props.unfollow(userId);
+            }
+            this.props.setFollowingProgress(false, userId);
+        });
     }
 
     follow = (userId) => {
+        this.props.setFollowingProgress(true, userId);
         usersApi.follow(userId).then(response => {
-               if (response.data.resultCode === 0) {
-                   this.props.follow(userId);
-               }
-            });
+            if (response.data.resultCode === 0) {
+                this.props.follow(userId);
+            }
+            this.props.setFollowingProgress(false, userId);
+        });
     }
 
     render() {
         return (
             <>
-                { this.props.isFetching ? <Preloader/>: null}
+                {this.props.isFetching ? <Preloader/> : null}
                 <Users
-                totalUserCount={this.props.totalUserCount}
-                pageSize={this.props.pageSize}
-                currentPage={this.props.currentPage}
-                users={this.props.users}
-                onPageChanged={this.onPageChanged}
-                unfollow={this.unfollow}
-                follow={this.follow}
+                    totalUserCount={this.props.totalUserCount}
+                    pageSize={this.props.pageSize}
+                    currentPage={this.props.currentPage}
+                    users={this.props.users}
+                    onPageChanged={this.onPageChanged}
+                    unfollow={this.unfollow}
+                    follow={this.follow}
+                    followingInProgress={this.props.followingInProgress}
                 />
             </>
         );
@@ -82,6 +88,7 @@ const mapStateToProps = (state) => {
         totalUserCount: state.usersPage.totalUserCount,
         currentPage: state.usersPage.currentPage,
         isFetching: state.usersPage.isFetching,
+        followingInProgress: state.usersPage.followingInProgress,
     }
 }
 
@@ -115,6 +122,7 @@ const UsersContainer = connect(mapStateToProps, {
     setCurrentPage,
     setTotalUserCount,
     SetToggle,
+    setFollowingProgress,
 })(UsersApiComponent);
 
 export default UsersContainer;
