@@ -32,6 +32,9 @@ export const usersApi = {
     getUserProfile(userId) {
         return instance.get(baseUrl + `profile/${userId}`);
     },
+};
+
+export const authApi = {
     getAuthProfile() {
         return instance.get(baseUrl + 'auth/me');
     }
