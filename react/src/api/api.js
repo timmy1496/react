@@ -28,12 +28,11 @@ export const usersApi = {
             .then(response => {
                 return response;
             });
+    },
+    getUserProfile(userId) {
+        return instance.get(baseUrl + `profile/${userId}`);
+    },
+    getAuthProfile() {
+        return instance.get(baseUrl + 'auth/me');
     }
 };
-
-export const getUsers = (currentPage, pageSize) => {
-    return instance.get(baseUrl + `users?page=${currentPage}&count=${pageSize}`)
-        .then(response => {
-            return response.data
-        });
-}
