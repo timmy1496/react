@@ -3,6 +3,7 @@ import {follow, getUsersThunkCreator, setCurrentPage, setFollowingProgress, unfo
 import React from 'react';
 import Users from './Users';
 import Preloader from "../common/Preloader/Preloader";
+import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 
 class UsersApiComponent extends React.Component {
 
@@ -56,12 +57,14 @@ const mapStateToProps = (state) => {
     }
 }
 
+let withRedirect = withAuthRedirect(UsersApiComponent);
+
 const UsersContainer = connect(mapStateToProps, {
     follow,
     unfollow,
     setCurrentPage,
     setFollowingProgress,
     getUsers: getUsersThunkCreator,
-})(UsersApiComponent);
+})(withRedirect);
 
 export default UsersContainer;
