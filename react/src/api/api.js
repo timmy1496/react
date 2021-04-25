@@ -29,8 +29,17 @@ export const usersApi = {
                 return response;
             });
     },
+};
+
+export const profileApi = {
     getUserProfile(userId) {
         return instance.get(baseUrl + `profile/${userId}`);
+    },
+    getProfileStatus(userId) {
+        return instance.get(baseUrl + `profile/status/${userId}`)
+    },
+    updateStatus(status) {
+        return instance.put(baseUrl + 'profile/status', {status: status});
     },
 };
 
