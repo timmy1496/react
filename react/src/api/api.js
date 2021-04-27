@@ -46,5 +46,8 @@ export const profileApi = {
 export const authApi = {
     getAuthProfile() {
         return instance.get(baseUrl + 'auth/me');
-    }
+    },
+    login(data) {
+        return instance.post(baseUrl + 'auth/login',{...data})
+    },
 };

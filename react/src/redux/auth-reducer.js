@@ -36,4 +36,12 @@ export const getAuthUserThunkCreator = () => {
     };
 };
 
+export const login = (data) => {
+    return (dispatch) => {
+        authApi.login(data).then(response => {
+
+        });
+    }
+}
+
 export default authReducer;
