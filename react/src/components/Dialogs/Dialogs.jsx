@@ -3,6 +3,8 @@ import DialogItem from './DialogItem/DialogItem';
 import s from './Dialogs.module.css';
 import Message from './Message/Message';
 import { Redirect } from "react-router-dom";
+import {reduxForm} from "redux-form";
+import Form from "../Form/Form";
 
 const Dialogs = function (props) {
     let dialogsElemets = props.dialogs.map(dialog => <DialogItem name={dialog.name} key={dialog.id} id={dialog.id}/>);
@@ -11,14 +13,17 @@ const Dialogs = function (props) {
 
     let newMessage = React.createRef()
 
-    let onAddMessage = () => {
-        let message = newMessage.current.value;
+    let onAddMessage = (message) => {
         props.addMessage(message);
     }
 
     let onMessageChange = (e) => {
         let body = e.target.value;
         props.messageChange(body);
+    }
+
+    const onSubmit = (formData) => {
+        onAddMessage(formData.text);
     }
 
     return (
@@ -30,11 +35,12 @@ const Dialogs = function (props) {
                 { messages }
             </div>
             <div>
-                <textarea onChange={ onMessageChange } ref={ newMessage } value={props.newMessageText} name="" id="" cols="30" rows="10"/>
-                <button onClick={ onAddMessage }>Add message</button>
+                <DialogsFormRedux onSubmit={onSubmit} />
             </div>
         </div>
     );
 }
+
+const DialogsFormRedux = reduxForm({form: 'dialogs'})(Form)
 
 export default Dialogs;
