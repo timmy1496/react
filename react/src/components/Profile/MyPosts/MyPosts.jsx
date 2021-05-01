@@ -17,11 +17,6 @@ const MyPosts = (props) => {
         //props.dispatch(addPostActionCreator());
     }
 
-    let onPostChange = () => {
-        let text = newPostElement.current.value;
-        props.updateNewPostText(text);
-    }
-
     const onSubmit = (formData) => {
         onAddPost(formData.text);
     }

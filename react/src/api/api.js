@@ -36,7 +36,7 @@ export const profileApi = {
         return instance.get(baseUrl + `profile/${userId}`);
     },
     getProfileStatus(userId) {
-        return instance.get(baseUrl + `profile/status/${userId}`)
+        return instance.get(baseUrl + `profile/status/${userId}`);
     },
     updateStatus(status) {
         return instance.put(baseUrl + 'profile/status', {status: status});
@@ -48,6 +48,9 @@ export const authApi = {
         return instance.get(baseUrl + 'auth/me');
     },
     login(data) {
-        return instance.post(baseUrl + 'auth/login',{...data})
+        return instance.post(baseUrl + 'auth/login',{...data});
+    },
+    logout() {
+        return instance.delete(baseUrl + 'auth/login');
     },
 };
