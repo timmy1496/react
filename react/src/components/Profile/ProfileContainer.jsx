@@ -10,7 +10,15 @@ import {compose} from "redux";
 class ProfileContainerApi extends React.Component {
 
     componentDidMount() {
-        let userId = !this.props.match.params.userId ? this.props.authId : this.props.match.params.userId;
+        let userId = this.props.match.params.userId;
+
+        if (!userId) {
+            userId = this.props.authId;
+            if (!userId) {
+                this.props.history.push("/login");
+            }
+        }
+
         this.props.getUserProfileThunk(userId);
         this.props.getUserProfileStatus(userId);
     }
@@ -40,5 +48,5 @@ const mapStateToProps = (state) => ({
 export default compose(
     connect(mapStateToProps, {getUserProfileThunk, getUserProfileStatus, updateUserProfileStatus}),
     withRouter,
-    withAuthRedirect
+    // withAuthRedirect
 )(ProfileContainerApi);

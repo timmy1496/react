@@ -57,14 +57,14 @@ const mapStateToProps = (state) => {
     }
 }
 
-let withRedirect = withAuthRedirect(UsersApiComponent);
+// let withRedirect = withAuthRedirect(UsersApiComponent);
 
-const UsersContainer = connect(mapStateToProps, {
+export default connect(mapStateToProps, {
     follow,
     unfollow,
     setCurrentPage,
     setFollowingProgress,
     getUsers: getUsersThunkCreator,
-})(withRedirect);
+})(UsersApiComponent);
 
-export default UsersContainer;
+// export default UsersContainer;
