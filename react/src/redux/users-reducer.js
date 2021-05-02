@@ -45,6 +45,7 @@ const usersReducer = (state = initialState, action) => {
                 users: [...action.users],
             };
         case SET_CURRENT_PAGE:
+            debugger
             return {
                 ...state,
                 currentPage: action.currentPage,
@@ -82,6 +83,7 @@ export const setFollowingProgress = (isFetching, userId) => ({type: TOGGLE_IS_FO
 export const getUsersThunkCreator = (currentPage, pageSize) => {
   return  (dispatch) => {
       dispatch(SetToggle(true));
+      dispatch(setCurrentPage(currentPage));
       usersApi.getUsers(currentPage, pageSize).then(response => {
           dispatch(SetToggle(false));
           dispatch(usersSet(response.items));
