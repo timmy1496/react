@@ -10,7 +10,7 @@ import {
     getIsFetching,
     getPageSize,
     getTotalUsersCount,
-    getUsers
+    getUsers, getUsersSuper, getUsersSuperSelector
 } from "../../redux/users-selectors";
 
 class UsersApiComponent extends React.Component {

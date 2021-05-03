@@ -45,7 +45,6 @@ const usersReducer = (state = initialState, action) => {
                 users: [...action.users],
             };
         case SET_CURRENT_PAGE:
-            debugger
             return {
                 ...state,
                 currentPage: action.currentPage,
