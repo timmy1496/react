@@ -3,14 +3,13 @@ import {follow, getUsersThunkCreator, setCurrentPage, setFollowingProgress, unfo
 import React from 'react';
 import Users from './Users';
 import Preloader from "../common/Preloader/Preloader";
-import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import {
     getCurrentPage,
     getFollowingInProgress,
     getIsFetching,
     getPageSize,
     getTotalUsersCount,
-    getUsers, getUsersSuper, getUsersSuperSelector
+    getUsers
 } from "../../redux/users-selectors";
 
 class UsersApiComponent extends React.Component {
