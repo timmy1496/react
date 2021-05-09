@@ -5,8 +5,8 @@ import Post from './Post/Post';
 import {reduxForm} from "redux-form";
 import Form from "../../Form/Form";
 
-
-const MyPosts = (props) => {
+const MyPosts = React.memo((props) => {
+    console.log('render yo')
 
     let posts = props.posts.map(post => <Post message={post.message} likeCount={post.likeCount}/>);
 
@@ -30,7 +30,7 @@ const MyPosts = (props) => {
             </div>
         </div>
     );
-}
+});
 
 const PostsFormRedux = reduxForm({form: 'posts'})(Form)
 
