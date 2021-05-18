@@ -46,12 +46,9 @@ const profileReducer = (state = initialState, action) => {
 export const addPostActionCreator = (text) => ({type: ADD_POST, text: text})
 export const setUserProfile = (profile) => ({type: SET_USER_PROFILE, profile: profile});
 
-export const getUserProfileThunk = (userId) => {
-    return (dispatch) => {
-        profileApi.getUserProfile(userId).then(response => {
-            dispatch(setUserProfile(response.data));
-        });
-    };
+export const getUserProfileThunk = (userId) => async (dispatch) => {
+    let response = await profileApi.getUserProfile(userId);
+    dispatch(setUserProfile(response.data));
 };
 
 const setUserProfileStatus = (status) => {

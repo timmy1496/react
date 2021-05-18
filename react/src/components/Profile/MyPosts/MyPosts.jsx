@@ -8,7 +8,7 @@ import Form from "../../Form/Form";
 const MyPosts = React.memo((props) => {
     console.log('render yo')
 
-    let posts = props.posts.map(post => <Post message={post.message} likeCount={post.likeCount}/>);
+    let posts = [...props.posts].reverse().map(post => <Post message={post.message} likeCount={post.likeCount}/>);
 
     let newPostElement = React.createRef();
 
