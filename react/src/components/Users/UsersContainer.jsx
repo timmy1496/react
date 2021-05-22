@@ -39,7 +39,7 @@ class UsersApiComponent extends React.Component {
             <>
                 {this.props.isFetching ? <Preloader/> : null}
                 <Users
-                    totalUserCount={this.props.totalUserCount}
+                    totalItemsCount={this.props.totalUserCount}
                     pageSize={this.props.pageSize}
                     currentPage={this.props.currentPage}
                     users={this.props.users}
