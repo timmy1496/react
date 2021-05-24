@@ -3,13 +3,15 @@ import {profileApi, usersApi} from "../api/api";
 const ADD_POST = 'ADD-POST';
 const SET_USER_PROFILE = 'SET_USER_PROFILE';
 const SET_PROFILE_STATUS = 'SET_PROFILE_STATUS';
+const SET_USER_PHOTO = 'SET_USER_PHOTO';
 
 let initialState = {
     posts: [
         {id: 1, likeCount: 4, message: 'Hi, how are you?'},
         {id: 2, likeCount: 22, message: 'It\'s my first post'},
     ],
-    profile: {},
+    profile: {
+    },
     profileStatus: '',
     newPostText: 'it-kamasutra.com'
 };
@@ -38,6 +40,12 @@ const profileReducer = (state = initialState, action) => {
                 profileStatus: action.profileStatus
             };
         }
+        case SET_USER_PHOTO: {
+            return {
+              ...state,
+              profile: {...state.profile, photos: action.url},
+            };
+        }
         default :
             return state;
     }
@@ -45,6 +53,7 @@ const profileReducer = (state = initialState, action) => {
 
 export const addPostActionCreator = (text) => ({type: ADD_POST, text: text})
 export const setUserProfile = (profile) => ({type: SET_USER_PROFILE, profile: profile});
+export const savePhotoSuccess = (photos) => ({type: SET_USER_PHOTO, url: photos});
 
 export const getUserProfileThunk = (userId) => async (dispatch) => {
     let response = await profileApi.getUserProfile(userId);
@@ -74,5 +83,15 @@ export const updateUserProfileStatus = (status) => {
         });
     }
 };
+
+export const saveUserPhoto = (photo) => {
+    return (dispatch) => {
+        profileApi.savePhoto(photo).then(response => {
+            if (response.data.resultCode === 0) {
+                dispatch(savePhotoSuccess(response.data.data.photos));
+            }
+        });
+    }
+}
 
 export default profileReducer;

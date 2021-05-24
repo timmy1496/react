@@ -2,6 +2,7 @@ import s from './ProfileInfo.module.css';
 import Preloader from "../../common/Preloader/Preloader";
 import ProfileStatus from './ProfileStatus';
 import ProfileStatusWithHooks from "./ProfileStatusWithHooks";
+import userPhoto from "../../../assets/images/user.jpg";
 
 const ProfileInfo = (props) => {
 
@@ -9,6 +10,12 @@ const ProfileInfo = (props) => {
         return  (
             <Preloader/>
         );
+    }
+
+    const onMainPhotoSelected = (e) => {
+        if (e.target.files.length) {
+            props.savePhoto(e.target.files[0]);
+        }
     }
 
     return (
@@ -19,6 +26,8 @@ const ProfileInfo = (props) => {
                     alt=""/>
             </div>
             <div className={s.descriptionBlock}>
+                <img src={props.profile.photos.large || userPhoto} alt="" className={s.avatar}/>
+                { props.isOwner && <input type="file" onChange={onMainPhotoSelected}/> }
                 <p>
                     fullName: {props.profile.fullName}
                 </p>
@@ -26,7 +35,6 @@ const ProfileInfo = (props) => {
                 <p>
                     userid: {props.profile.userId}
                 </p>
-                <img src={props.profile.photos.large} alt=""/>
                <p>description: {props.profile.aboutMe}</p>
                 <p>
                     contacts:

@@ -41,6 +41,16 @@ export const profileApi = {
     updateStatus(status) {
         return instance.put(baseUrl + 'profile/status', {status: status});
     },
+    savePhoto(photoFile) {
+        const formData = new FormData();
+        formData.append("image", photoFile);
+
+        return instance.put(baseUrl + 'profile/photo', formData, {
+            headers: {
+                'Content-type': 'multipart/form-data',
+            }
+        });
+    },
 };
 
 export const authApi = {
@@ -48,7 +58,7 @@ export const authApi = {
         return instance.get(baseUrl + 'auth/me');
     },
     login(data) {
-        return instance.post(baseUrl + 'auth/login',{...data});
+        return instance.post(baseUrl + 'auth/login', {...data});
     },
     logout() {
         return instance.delete(baseUrl + 'auth/login');
