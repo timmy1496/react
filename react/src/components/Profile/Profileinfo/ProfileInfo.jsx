@@ -4,6 +4,7 @@ import ProfileStatus from './ProfileStatus';
 import ProfileStatusWithHooks from "./ProfileStatusWithHooks";
 import userPhoto from "../../../assets/images/user.jpg";
 import {useState} from "react";
+import ProfileDataForm from "../ProfileDataForm";
 
 const ProfileInfo = (props) => {
     const [editMode, setEditMode] = useState(false);
@@ -20,9 +21,13 @@ const ProfileInfo = (props) => {
         }
     }
 
-    const activateEditMode = () => {
+    const toEditMode = () => {
         setEditMode(!editMode);
     };
+
+    const onSubmit = (formData) => {
+        props.saveProfile(formData).then(() => setEditMode(!editMode));
+    }
 
     return (
         <div>
@@ -31,11 +36,11 @@ const ProfileInfo = (props) => {
                     src="https://images.ctfassets.net/hrltx12pl8hq/7yQR5uJhwEkRfjwMFJ7bUK/dc52a0913e8ff8b5c276177890eb0129/offset_comp_772626-opt.jpg?fit=fill&w=800&h=300"
                     alt=""/>
             </div>
-            {editMode ? <ProfileDataForm/> : <ProfileData
+            {editMode ? <ProfileDataForm {...props} onSubmit={onSubmit} initialValues={props.profile} /> : <ProfileData
                 {...props}
                 onMainPhotoSelected={onMainPhotoSelected}
                 isOwner={props.isOwner}
-                activateEditMode={activateEditMode}/>}
+                toEditMode={toEditMode}/>}
         </div>
     );
 }
@@ -47,7 +52,7 @@ const ProfileData = (props) => {
           { props.isOwner && <input type="file" onChange={props.onMainPhotoSelected}/> }
           {props.isOwner &&
             <div>
-                <button onClick={props.activateEditMode}>Edit</button>
+                <button onClick={props.toEditMode}>Edit</button>
             </div>
           }
           <p>
@@ -75,14 +80,6 @@ const ProfileData = (props) => {
       </div>
   );
 };
-
-const ProfileDataForm = () => {
-    return (
-        <div>
-            t
-        </div>
-    );
-}
 
 const Contact = ({contactTitle, contactValue}) => {
     return (
