@@ -18,12 +18,12 @@ const Login = (props) => {
     return (
         <div>
             <h1>Login</h1>
-            <LoginReduxForm onSubmit={onSubmit}/>
+            <LoginReduxForm onSubmit={onSubmit} captchaUrl={props.captchaUrl}/>
         </div>
     );
 };
 
-const LoginForm = ({handleSubmit, error}) => {
+const LoginForm = ({handleSubmit, error, captchaUrl}) => {
     return (
         <form onSubmit={handleSubmit}>
             { createField(Input, 'email', 'login', [required]) }
@@ -32,6 +32,8 @@ const LoginForm = ({handleSubmit, error}) => {
             { error && <div className={style.formSummaryError}>
                 {error}
             </div>}
+            {captchaUrl && createField(Input, 'captcha', 'Captcha', [required])}
+            {captchaUrl && <img className={style.captchaImg} src={captchaUrl} alt="" />}
             <div><button>Login</button></div>
         </form>
     );
@@ -44,6 +46,7 @@ const LoginReduxForm = reduxForm({
 const mapStateToProps = (state) => ({
     authId: state.auth.userId,
     isAuth: state.auth.isAuth,
+    captchaUrl: state.auth.captchaUrl,
 });
 
 export default connect(mapStateToProps, {login})(Login);
